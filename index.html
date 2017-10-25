@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title></title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-beta/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container" id="guestbook-app">
+
+        <div class="form">
+            <div class="form-group">
+                <label for="name-textbox">Name</label>
+                <input type="text" class="form-control" id="name-textbox" placeholder="Enter your name" v-model="newEntry.name">
+            </div>
+            <div class="form-group">
+                <label for="comment-textarea">Comment</label>
+                <textarea class="form-control" id="comment-textarea" rows="5" placeholder="Do you have any message for the happy couple?"
+                    v-model="newEntry.comment"> </textarea>
+            </div>
+            <button class="btn btn-primary" v-on:click="submit()" :disabled="!isValid()">Add</button>
+        </div>
+
+        <div class="card mt-3">
+            <div class="card-body">
+                <h3 class="card-title">Previous Messages</h3>
+
+                <p class="card-text">
+                    <blockquote class="blockquote" v-for="entry in entries">
+                        <p class="mb-0">{{ entry.comment }}</p>
+                        <footer class="blockquote-footer">{{ entry.name }}</footer>
+                    </blockquote>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/vue@2.5.2"></script>
+    <script>
+        new Vue({
+            el: '#guestbook-app',
+
+            data: {
+                newEntry: {
+                    name: '',
+                    comment: ''
+                },
+
+                entries: [{
+                    name: 'Tracy',
+                    comment: 'Congratulations!'
+                }, {
+                    name: 'Mike',
+                    comment: 'Congratulations!'
+                }, {
+                    name: 'Chris',
+                    comment: 'Congratulations!'
+                }],
+
+                isValid: function () {
+                    return this.newEntry.name.length > 0 && this.newEntry.comment.length > 0
+                }
+            },
+
+            methods: {
+                submit: function () {
+                    this.entries.push(this.newEntry)
+
+                    this.newEntry = {
+                        name: '',
+                        comment: ''
+                    }
+                }
+            }
+        })
+
+        Vue.config.devtools = true
+    </script>
+</body>
+
+</html>
